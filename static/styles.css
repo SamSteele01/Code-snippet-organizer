@@ -1,0 +1,16 @@
+.container {
+  max-width: 50rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.header-row {
+  background-color: gray;
+}
+
+div.each {
+  display: block;
+  border: 1px solid black;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}

@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "express-flash-messages": "^0.1.1",
+    "express-session": "^1.15.4",
+    "express-sessions": "^1.0.6",
+    "express-validator": "^3.2.1",
+    "mongoose": "^4.11.4",
+    "mustache-express": "^1.2.5",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  },
+  "name": "Code-snippet-organizer",
+  "description": "Using Express and Mongoose, create an application that organizes code snippets that you save for later use.",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

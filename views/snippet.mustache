@@ -1,0 +1,27 @@
+a title
+a body (the code)
+optional notes
+a language
+tags
+author
+stars
+date created
+button - update
+button - export to Atom
+
+<div class="container">
+
+  {{#snippets}}
+    <h2>{{title}}</h2>
+    <p>{{body}}</p>
+    <p>{{notes}}</p>
+    <h4>{{language}}</h4>
+    {{#tags}}
+      <p>{{.}}</p>
+    {{/tags}}
+    <h4>Author: {{author}}</h4>
+    <h6>Stars: {{stars}}</h6>
+    <h6>Date created: {{dateCreated}}</h6>
+  {{/snippets}}
+
+</div>
