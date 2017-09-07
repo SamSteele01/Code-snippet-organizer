@@ -1,21 +1,23 @@
-{{>header}}
-<div class="container">
+<div class="container" style="margin-top: 2rem">
+  {{>header}}
+  <div class="container">
 
-  {{#snippet}}
-    <h2>{{title}}</h2>
-    <p>{{body}}</p>
-    <p>{{notes}}</p>
-    <h4>{{language}}</h4>
-    {{#tags}}
-      <p>{{.}}</p>
-    {{/tags}}
-    <h4>Author: {{author}}</h4>
-    <h6>Stars: {{stars}}</h6>
-    <h6>Date created: {{dateCreated}}</h6>
-    <a href="/index" class="button button-info">Back to index</a>
-    <a href="/edit/{{_id}}" class="button button-primary">Edit this snippet</a>
-    <a href="/delete/{{_id}}" class="button button-danger">Delete this snippet</a>
-  {{/snippet}}
+    {{#snippet}}
+      <h2>{{title}}</h2>
+      <p>{{body}}</p>
+      <p>{{notes}}</p>
+      <h4>{{language}}</h4>
+      {{#tags}}
+        <p>{{.}}</p>
+      {{/tags}}
+      <h4>Author: {{author}}</h4>
+      <h6>Stars: {{stars}}</h6>
+      <h6>Date created: {{dateCreated}}</h6>
+      <a href="/index" class="button button-info">Back to index</a>
+      <a href="/edit/{{_id}}" class="button button-primary">Edit this snippet</a>
+      <a href="/delete/{{_id}}" class="button button-danger">Delete this snippet</a>
+    {{/snippet}}
 
 
+  </div>
 </div>

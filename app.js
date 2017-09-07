@@ -166,12 +166,6 @@ const requireLogin = function (req, res, next) {
  }
 }
 
-const addIndexToIngredients = function(recipe) {
-    for (let idx = 0; idx < recipe.ingredients.length; idx++) {
-        recipe.ingredients[idx].index = idx;
-    }
-}
-
 app.get('/create/', requireLogin, function (req, res) {
 
  res.render("create");
@@ -198,6 +192,7 @@ app.post('/create/', function(req, res){
   //     res.render('create', {errorMsg: errorMsg});
   // })
  })
+
 
 app.get('/index', requireLogin, function(req, res){
   Snippet.find().then(function(snippets){
@@ -242,7 +237,6 @@ app.get('/edit/:id', function(req, res){
   })
 })
 
-// goes with /edit page
 app.post('/addTags/:id', function(req, res){
 console.log(req.body);
   Snippet.findOne({_id: req.params.id}).then(function(snippet){
