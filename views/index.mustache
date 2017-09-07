@@ -1,21 +1,5 @@
 <div class="container" style="margin-top: 2rem">
-  <div class="header-row">
-    <!-- <div class="col"> -->
-      {{#user}}
-        <h2>Snippets</h2>
-        <h3>
-          Welcome {{ username }}.
-          <small><a href="/logout/">Logout</a></small>
-        </h3>
-      {{/user}}
-      <!-- {{^user}}
-      <h1>
-        Please log in to continue.
-        <small><a href="/login/">Login</a> | <a href="/register/">Register</a></small>
-      </h1>
-      {{/user}} -->
-    <!-- </div> -->
-  </div>
+  {{> header}}
   <div class="search">
     <!-- search form - 2 dropdowns -->
     <form class="" action="/searchKey" method="post">
@@ -25,7 +9,9 @@
         <option value="tags">Tag</option>
         <option value="author">Author</option>
       </select>
+      {{^values.0}}
       <button type="submit" name="searchBy" class="button">Apply filter</button>
+      {{/values.0}}
     </form>
     {{#values.0}}
       <button type="submit" name="removeFilter" class="button">Remove filter</button>
@@ -49,12 +35,12 @@
     <!-- list of all snippets -->
     {{#snippets}}
       <div class="snippet">
-        <h2>
+        <h3>
           <a href="/snippet/{{_id}}">{{title}}</a>
-        </h2>
-        <h3>{{language}}</h3>
+        </h3>
+        <h4>{{language}}</h4>
         {{#tags}}
-          <h3>{{.}}</h3>
+          <h4>{{.}}</h4>
         {{/tags}}
       </div>
     {{/snippets}}

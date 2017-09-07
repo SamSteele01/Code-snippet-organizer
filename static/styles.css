@@ -6,6 +6,16 @@
 
 .header-row {
   background-color: gray;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  padding: .5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+p.create{
+  margin: .5rem 2rem;
 }
 
 div.each {
@@ -13,4 +23,28 @@ div.each {
   border: 1px solid black;
   margin: 2rem auto;
   padding: 0 1rem;
+}
+
+div.list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 -.5rem;
+}
+
+div.snippet {
+  width: 150px;
+  height: 200px;
+  margin: .5rem;
+  padding: .5rem;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+textarea#body{
+  height: 10em;
+}
+
+textarea#notes{
+  height: 5em;
 }

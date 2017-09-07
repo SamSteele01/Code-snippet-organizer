@@ -5,7 +5,7 @@ const snippetSchema = new mongoose.Schema({
   body: String,
   notes: String,
   language: String,
-  tags: String,
+  tags: [String],
   author: String,
   stars: Number,
   dateCreated: Date

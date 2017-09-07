@@ -1,17 +1,7 @@
-a title
-a body (the code)
-optional notes
-a language
-tags
-author
-stars
-date created
-button - update
-button - export to Atom
-
+{{>header}}
 <div class="container">
 
-  {{#snippets}}
+  {{#snippet}}
     <h2>{{title}}</h2>
     <p>{{body}}</p>
     <p>{{notes}}</p>
@@ -22,6 +12,10 @@ button - export to Atom
     <h4>Author: {{author}}</h4>
     <h6>Stars: {{stars}}</h6>
     <h6>Date created: {{dateCreated}}</h6>
-  {{/snippets}}
+    <a href="/index" class="button button-info">Back to index</a>
+    <a href="/edit/{{_id}}" class="button button-primary">Edit this snippet</a>
+    <a href="/delete/{{_id}}" class="button button-danger">Delete this snippet</a>
+  {{/snippet}}
+
 
 </div>

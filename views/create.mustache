@@ -1,3 +1,4 @@
+{{>header}}
 <h2>Add new snippet</h2>
 
 {{#errorMsg}}
@@ -28,8 +29,19 @@
   </p>
 
   <p>
-    <label for="tags">Tags:</label>
-    <input type="text" id="tags" name="tags" />
+    <form class="addTags" action="/addTags" method="post">
+
+      <label for="tags">Tags:</label>
+        {{#tags.0}}
+          <ul>
+            {{#tags}}
+              <li>{{.}}</li>
+            {{/tags}}
+          </ul>
+        {{/tags.0}}
+      <input type="text" id="tags" name="tags" />
+      <button type="submit" name="tags">Add tag</button>
+    </form>
   </p>
   <!-- want to have additional inputs created as needed -->
 

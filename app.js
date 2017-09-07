@@ -32,147 +32,158 @@ app.use('/static', express.static('static'));
 
 
 
- passport.use(new LocalStrategy(
-     function(username, password, done) {
-         User.authenticate(username, password, function(err, user) {
-             if (err) {
-                 return done(err)
-             }
-             if (user) {
-                 return done(null, user)
-             } else {
-                 return done(null, false, {
-                     message: "There is no user with that username and password."
-                 })
-             }
-         })
-     }));
+passport.use(new LocalStrategy(
+   function(username, password, done) {
+       User.authenticate(username, password, function(err, user) {
+           if (err) {
+               return done(err)
+           }
+           if (user) {
+               return done(null, user)
+           } else {
+               return done(null, false, {
+                   message: "There is no user with that username and password."
+               })
+           }
+       })
+   }));
 
- passport.serializeUser(function(user, done) {
-     done(null, user.id);
- });
+passport.serializeUser(function(user, done) {
+   done(null, user.id);
+});
 
- passport.deserializeUser(function(id, done) {
-     User.findById(id, function(err, user) {
-         done(err, user);
-     });
- });
+passport.deserializeUser(function(id, done) {
+   User.findById(id, function(err, user) {
+       done(err, user);
+   });
+});
 
- app.use(bodyParser.urlencoded({
-     extended: false
- }));
- app.use(expressValidator());
+app.use(bodyParser.urlencoded({
+   extended: false
+}));
+app.use(expressValidator());
 
 
- app.use(session({
-     secret: 'keyboard cat',
-     resave: false,
-     saveUninitialized: false,
-     store: new(require('express-sessions'))({
-         storage: 'mongodb',
-         instance: mongoose, // optional
-         host: 'localhost', // optional
-         port: 27017, // optional
-         db: 'test', // optional
-         collection: 'sessions', // optional
-         expire: 86400 // optional
-     })
- }));
+app.use(session({
+   secret: 'keyboard cat',
+   resave: false,
+   saveUninitialized: false,
+   store: new(require('express-sessions'))({
+       storage: 'mongodb',
+       instance: mongoose, // optional
+       host: 'localhost', // optional
+       port: 27017, // optional
+       db: 'test', // optional
+       collection: 'sessions', // optional
+       expire: 86400 // optional
+   })
+}));
 
- app.use(passport.initialize());
- app.use(passport.session());
- app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
- app.use(function (req, res, next) {
-   res.locals.user = req.user;
-   next();
- })
+app.use(function (req, res, next) {
+ res.locals.user = req.user;
+ next();
+})
 
- app.get('/', function(req, res) {
-     res.render("login");
- })
+app.get('/', function(req, res) {
+   res.render("login");
+})
 
- app.get('/login/', function(req, res) {
-     res.render("login", {
-         messages: res.locals.getMessages()
-     });
- });
+app.get('/login/', function(req, res) {
+   res.render("login", {
+       messages: res.locals.getMessages()
+   });
+});
 
- app.post('/login/', passport.authenticate('local', {
-     successRedirect: '/index',
-     failureRedirect: '/login/',
-     failureFlash: true
- }))
+app.post('/login/', passport.authenticate('local', {
+   successRedirect: '/index',
+   failureRedirect: '/login/',
+   failureFlash: true
+}))
 
- app.get('/register/', function(req, res) {
-     res.render('register');
- });
+app.get('/register/', function(req, res) {
+   res.render('register');
+});
 
- app.post('/register/', function(req, res) {
-     req.checkBody('username', 'Username must be alphanumeric').isAlphanumeric();
-     req.checkBody('username', 'Username is required').notEmpty();
-     req.checkBody('password', 'Password is required').notEmpty();
+app.post('/register/', function(req, res) {
+   req.checkBody('username', 'Username must be alphanumeric').isAlphanumeric();
+   req.checkBody('username', 'Username is required').notEmpty();
+   req.checkBody('password', 'Password is required').notEmpty();
 
-     req.getValidationResult()
-         .then(function(result) {
-             if (!result.isEmpty()) {
-                 return res.render("register", {
-                     username: req.body.username,
-                     errors: result.mapped()
-                 });
-             }
-             const user = new User({
-                 username: req.body.username,
-                 password: req.body.password
-             })
+   req.getValidationResult()
+       .then(function(result) {
+           if (!result.isEmpty()) {
+               return res.render("register", {
+                   username: req.body.username,
+                   errors: result.mapped()
+               });
+           }
+           const user = new User({
+               username: req.body.username,
+               password: req.body.password
+           })
 
-             const error = user.validateSync();
-             if (error) {
-                 return res.render("register", {
-                     errors: normalizeMongooseErrors(error.errors)
-                 })
-             }
+           const error = user.validateSync();
+           if (error) {
+               return res.render("register", {
+                   errors: normalizeMongooseErrors(error.errors)
+               })
+           }
 
-             user.save(function(err) {
-                 if (err) {
-                     return res.render("register", {
-                         messages: {
-                             error: ["That username is already taken."]
-                         }
-                     })
-                 }
-                 return res.redirect('/');
-             })
-         })
- });
+           user.save(function(err) {
+               if (err) {
+                   return res.render("register", {
+                       messages: {
+                           error: ["That username is already taken."]
+                       }
+                   })
+               }
+               return res.redirect('/');
+           })
+       })
+});
 
- function normalizeMongooseErrors(errors) {
-     Object.keys(errors).forEach(function(key) {
-         errors[key].message = errors[key].msg;
-         errors[key].param = errors[key].path;
-     });
+function normalizeMongooseErrors(errors) {
+   Object.keys(errors).forEach(function(key) {
+       errors[key].message = errors[key].msg;
+       errors[key].param = errors[key].path;
+   });
+}
+
+app.get('/logout/', function(req, res) {
+   req.logout();
+   res.redirect('/');
+});
+
+const requireLogin = function (req, res, next) {
+ if (req.user) {
+   next()
+ } else {
+   res.redirect('/login/');
  }
+}
 
- app.get('/logout/', function(req, res) {
-     req.logout();
-     res.redirect('/');
- });
+const addIndexToIngredients = function(recipe) {
+    for (let idx = 0; idx < recipe.ingredients.length; idx++) {
+        recipe.ingredients[idx].index = idx;
+    }
+}
 
- const requireLogin = function (req, res, next) {
-   if (req.user) {
-     next()
-   } else {
-     res.redirect('/login/');
-   }
- }
+app.get('/create/', requireLogin, function (req, res) {
 
- app.get('/create/', requireLogin, function (req, res) {
-
-   res.render("create");
- })
+ res.render("create");
+})
 
 app.post('/create/', function(req, res){
+  console.log(req.body);
+  // add date: now
+  req.body.stars = 0;
+  req.body.dateCreated = Date();
   Snippet.create(req.body).then(function(){
+
       res.redirect('/index');
   })
   // .catch(function(error) {
@@ -197,19 +208,18 @@ app.get('/index', requireLogin, function(req, res){
 })
 
 app.post('/searchKey', function(req, res){
-  // Snippet.find().then(function(snippets){
-   let key = req.body.searchBy[0];
-   req.session.key = key;
-   Snippet.distinct(key, function(error, values){
-     if(error){
-      //  console.log(error);
-     }else{
-       console.log(values);
-    // let values = snippets.distinct(key);
-       res.render('index', {values})
-     }
-  });
- })
+  Snippet.find().then(function(snippets){
+    let key = req.body.searchBy[0];
+    req.session.key = req.body.searchBy[0];
+    Snippet.distinct(key, function(error, values){
+      if(error){
+       console.log(error);
+      }else{
+        res.render('index', {snippets, values})
+      }
+    })
+  })
+})
 
 app.post('/searchValue', function(req, res){
     let trojan = {};
@@ -221,9 +231,32 @@ app.post('/searchValue', function(req, res){
 })
 
 app.get('/snippet/:id', function(req, res){
-   Snippet.findOne({_id: req.params.id}).then(function(snippets){
-     res.render('snippet', {snippets});
+   Snippet.findOne({_id: req.params.id}).then(function(snippet){
+     res.render('snippet', {snippet});
    })
+})
+
+app.get('/edit/:id', function(req, res){
+  Snippet.findOne({_id: req.params.id}).then(function(snippet){
+    res.render('edit', {snippet});
+  })
+})
+
+// goes with /edit page
+app.post('/addTags/:id', function(req, res){
+console.log(req.body);
+  Snippet.findOne({_id: req.params.id}).then(function(snippet){
+  snippet.tags.push(req.body.tags[0]);
+  snippet.save().then(function(){
+    res.render("edit", {snippet})
+    })
+  })
+})
+
+app.post('/edit/:id', function(req, res){
+    Snippet.findOneAndUpdate({_id: req.params.id}, req.body).then(function(snippet){
+    res.render('snippet', {snippet});
+  })
 })
 
  app.listen(3000, function() {
