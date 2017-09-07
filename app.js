@@ -190,6 +190,7 @@ app.post('/create/', function(req, res){
 
 app.get('/index', requireLogin, function(req, res){
   Snippet.find().then(function(snippets){
+
     let values = [];
     res.render('index', {snippets, values});
   })
@@ -197,10 +198,9 @@ app.get('/index', requireLogin, function(req, res){
 
 app.post('/searchKey', function(req, res){
   // Snippet.find().then(function(snippets){
-   let key = req.body;
-   console.log(key);
-   console.log(key.searchBy[0]);
-   Snippet.distinct(key.searchBy[0], function(error, values){
+   let key = req.body.searchBy[0];
+   req.session.key = key;
+   Snippet.distinct(key, function(error, values){
      if(error){
       //  console.log(error);
      }else{
@@ -212,9 +212,11 @@ app.post('/searchKey', function(req, res){
  })
 
 app.post('/searchValue', function(req, res){
-    let key = req.body.value;
-    Snippet.distinct(key).then(function(values){
-      res.render('index', {snippets, values})
+    let trojan = {};
+    let key = req.session.key;
+    trojan[key] = req.body.searchFor[0];
+    Snippet.find(trojan).then(function(snippets){
+      res.render('index', {snippets})
     })
 })
 
