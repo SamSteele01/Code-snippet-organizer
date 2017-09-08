@@ -161,19 +161,16 @@ app.get('/logout/', function(req, res) {
 const requireLogin = function (req, res, next) {
  if (req.user) {
    next()
- } else {
+  } else {
    res.redirect('/login/');
- }
+  }
 }
 
 app.get('/create/', requireLogin, function (req, res) {
-
  res.render("create");
 })
 
 app.post('/create/', function(req, res){
-  console.log(req.body);
-  // add date: now
   req.body.stars = 0;
   req.body.dateCreated = Date();
   Snippet.create(req.body).then(function(){
@@ -196,7 +193,6 @@ app.post('/create/', function(req, res){
 
 app.get('/index', requireLogin, function(req, res){
   Snippet.find().then(function(snippets){
-
     let values = [];
     res.render('index', {snippets, values});
   })
@@ -231,14 +227,13 @@ app.get('/snippet/:id', function(req, res){
    })
 })
 
-app.get('/edit/:id', function(req, res){
+app.get('/edit/:id', requireLogin, function(req, res){
   Snippet.findOne({_id: req.params.id}).then(function(snippet){
     res.render('edit', {snippet});
   })
 })
 
 app.post('/addTags/:id', function(req, res){
-console.log(req.body);
   Snippet.findOne({_id: req.params.id}).then(function(snippet){
   snippet.tags.push(req.body.tags[0]);
   snippet.save().then(function(){
@@ -250,6 +245,15 @@ console.log(req.body);
 app.post('/edit/:id', function(req, res){
     Snippet.findOneAndUpdate({_id: req.params.id}, req.body).then(function(snippet){
     res.render('snippet', {snippet});
+  })
+})
+
+app.post('/:id/delete/', function(req, res){
+  Snippet.find({_id: req.params.id}).then(function(snippet){
+    console.log(snippet);
+    snippet.deleteOne().then(function(){
+      res.redirect('index');
+    })
   })
 })
 

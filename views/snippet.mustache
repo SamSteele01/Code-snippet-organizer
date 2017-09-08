@@ -14,8 +14,13 @@
       <h6>Stars: {{stars}}</h6>
       <h6>Date created: {{dateCreated}}</h6>
       <a href="/index" class="button button-info">Back to index</a>
-      <a href="/edit/{{_id}}" class="button button-primary">Edit this snippet</a>
-      <a href="/delete/{{_id}}" class="button button-danger">Delete this snippet</a>
+      <a href="/edit/{{_id}}/" class="button button-primary">Edit this snippet</a>
+      <!-- <a href="/{{_id}}/delete/" class="button button-danger">Delete this snippet</a> -->
+      <form class="delete" action="/{{_id}}/delete/" method="post">
+        <p>
+          <button type="submit" name="image" class="button-danger">Delete this snippet</button>
+        </p>
+     </form>
     {{/snippet}}
 
 
