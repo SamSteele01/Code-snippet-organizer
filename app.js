@@ -99,6 +99,7 @@ app.get('/login/', function(req, res) {
 });
 
 app.post('/login/', passport.authenticate('local', {
+  // should check user db
    successRedirect: '/index',
    failureRedirect: '/login/',
    failureFlash: true
@@ -159,6 +160,7 @@ app.get('/logout/', function(req, res) {
 });
 
 const requireLogin = function (req, res, next) {
+  // could be better
  if (req.user) {
    next()
   } else {
@@ -172,7 +174,8 @@ app.get('/create/', requireLogin, function (req, res) {
 
 app.post('/create/', function(req, res){
   req.body.stars = 0;
-  req.body.dateCreated = Date();
+  var date = new Date();
+  req.body.dateCreated = date.toDateString();
   Snippet.create(req.body).then(function(){
 
       res.redirect('/index');
@@ -188,7 +191,7 @@ app.post('/create/', function(req, res){
   //     }
   //     res.render('create', {errorMsg: errorMsg});
   // })
- })
+})
 
 
 app.get('/index', requireLogin, function(req, res){
@@ -248,12 +251,9 @@ app.post('/edit/:id', function(req, res){
   })
 })
 
-app.post('/delete/:id/', function(req, res){
+app.get('/delete/:id/', function(req, res){
   Snippet.findByIdAndRemove({_id: req.params.id}).then(function(snippet){
-    console.log(snippet);
-    // snippet.deleteOne({_id: req.params.id}).then(function(){
       res.redirect('/index');
-    // })
   })
 })
 

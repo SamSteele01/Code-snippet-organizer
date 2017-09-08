@@ -8,7 +8,7 @@ const snippetSchema = new mongoose.Schema({
   tags: [String],
   author: String,
   stars: Number,
-  dateCreated: Date
+  dateCreated: String
 })
 
 const Snippet = mongoose.model('Snippet', snippetSchema);
