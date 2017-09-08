@@ -248,12 +248,12 @@ app.post('/edit/:id', function(req, res){
   })
 })
 
-app.post('/:id/delete/', function(req, res){
-  Snippet.find({_id: req.params.id}).then(function(snippet){
+app.post('/delete/:id/', function(req, res){
+  Snippet.findByIdAndRemove({_id: req.params.id}).then(function(snippet){
     console.log(snippet);
-    snippet.deleteOne().then(function(){
-      res.redirect('index');
-    })
+    // snippet.deleteOne({_id: req.params.id}).then(function(){
+      res.redirect('/index');
+    // })
   })
 })
 
