@@ -226,14 +226,24 @@ app.post('/searchValue', function(req, res){
 })
 
 app.get('/snippet/:id', function(req, res){
+  let bodyAsArray = [];
+  let lines = 0;
    Snippet.findOne({_id: req.params.id}).then(function(snippet){
-     res.render('snippet', {snippet});
+     bodyAsArray = snippet.body.split("\n");
+     lines = bodyAsArray.length;
+     res.render('snippet', {snippet, lines});
    })
 })
 
 app.get('/edit/:id', requireLogin, function(req, res){
+  let length = 0;
+  let bodyAsArray = [];
+  let lines = 0;
   Snippet.findOne({_id: req.params.id}).then(function(snippet){
-    res.render('edit', {snippet});
+    length = snippet.body.length;
+    bodyAsArray = snippet.body.split("\n");
+    lines = bodyAsArray.length;
+    res.render('edit', {snippet, length, lines});
   })
 })
 

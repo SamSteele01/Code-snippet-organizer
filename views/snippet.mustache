@@ -4,15 +4,22 @@
     <!-- this is a comment -->
     {{#snippet}}
       <h2>{{title}}</h2>
-      <p class="code">{{body}}</p>
+      <p><textarea type="text" id="body" rows={{lines}} value="{{body}}">{{body}}</textarea></p>
       <p>{{notes}}</p>
       <h4>{{language}}</h4>
       {{#tags}}
         <p>{{.}}</p>
       {{/tags}}
-      <!-- <h4>Author: {{author}}</h4>
-      <h6>Stars: {{stars}}</h6>
-      <h6>Date created: {{dateCreated}}</h6> -->
+      {{#author}}
+        <h4>Author: {{author}}</h4>
+      {{/author}}
+      {{#stars}}
+        <h6>Stars: {{stars}}</h6>
+      {{/stars}}
+      {{#dateCreated}}
+        <h6>Date created: {{dateCreated}}</h6>
+      {{/dateCreated}}
+
       <a href="/index" class="button button-info">Back to index</a>
       <a href="/edit/{{_id}}/" class="button button-primary">Edit this snippet</a>
       <!-- <a href="/delete/{{_id}}/" class="button button-danger">Delete this snippet</a> -->

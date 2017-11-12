@@ -9,6 +9,14 @@
     </div>
     {{/errorMsg}}
 
+    <!-- {{#length}}
+      <h2>Body length is: {{length}}</h2>
+    {{/length}}
+
+    {{#lines}}
+      <h2>Number of lines is: {{lines}}</h2>
+    {{/lines}} -->
+
     <form action="/edit/{{_id}}" id="editSnippet" method="POST">
       <p>
         <label for="title">Title:</label>
@@ -17,7 +25,7 @@
 
       <p>
         <label for="body">Body:</label>
-        <textarea type="text" id="body" form="editSnippet" name="body" value="{{body}}">{{body}}</textarea>
+        <textarea type="text" id="body" form="editSnippet" rows={{lines}} name="body" value="{{body}}">{{body}}</textarea>
       </p>
 
       <p>
@@ -63,9 +71,9 @@
         </ul>
         {{/tags.0}}
         <input type="text" id="tags" name="tags" />
-        <button type="submit" form="addTag" class="button form-button" name="tags">Add tag</button>
+        <button type="submit" form="addTag" class="button form-margin" name="tags">Add tag</button>
       </p>
     </form>
-    <a href="/snippet/{{_id}}" class="button button-info">Back</a>
+    <a href="/snippet/{{_id}}" class="button button-info form-margin">Back</a>
   {{/snippet}}
 </div>
