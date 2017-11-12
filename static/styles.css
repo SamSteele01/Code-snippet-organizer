@@ -14,6 +14,14 @@
   justify-content: space-between;
 }
 
+a.header{
+  color: white;
+}
+
+.form-button{
+  margin: 1rem 0;
+}
+
 p.create{
   margin: .5rem 2rem;
 }
@@ -39,6 +47,12 @@ div.snippet {
   padding: .5rem;
   border: 1px solid black;
   border-radius: 5px;
+}
+
+.code{
+  border: 1px solid black;
+  background-color: lightgray;
+  padding: 1rem;
 }
 
 textarea#body{
